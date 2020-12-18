@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "662967411403",
+    "firebase_url": "https://ffbesyncmobile.firebaseio.com",
+    "project_id": "ffbesyncmobile",
+    "storage_bucket": "ffbesyncmobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662967411403:android:e80e3e93300fc92e56b14e",
+        "android_client_info": {
+          "package_name": "com.ffbedataexportermobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "662967411403-bohcup88eq1rqog5icc7s8j4nmfqohpj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ffbedataexportermobile",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "662967411403-b81774bc3itv3tsub75g0a2q4lsq98jj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ffbedataexportermobile",
+            "certificate_hash": "e5931e425b24a30812f2b8a0328c749a4edcadd9"
+          }
+        },
+        {
+          "client_id": "662967411403-6u6k7oj0dd4i1ne8gah7f7h848b9l3pq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlA-lAtJLQqwi5L3g8Ieaz1uLCS-xkrQc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "662967411403-6u6k7oj0dd4i1ne8gah7f7h848b9l3pq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
