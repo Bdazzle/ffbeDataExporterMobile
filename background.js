@@ -28,8 +28,9 @@ export const getUserData = async (accountId, authToken, isGoogle) => {
     const getInitialAuthentication = async () => {
       const data = await getAuthenticationPayload(accountId, authToken, isGoogle, loginKey);
       const data_1 = await callActionSymbol(loginUrlSymbol, loginKey, data);
-      const data_2 = await getLoginToken(accountId, authToken, isGoogle, data_1);
-      return await wait1s(data_2);
+      // const data_2 = await getLoginToken(accountId, authToken, isGoogle, data_1);
+      // return await wait1s(data_2);
+      return await getLoginToken(accountId, authToken, isGoogle, data_1);
     }
     const initialAuthentication = await getInitialAuthentication()
 
@@ -37,8 +38,9 @@ export const getUserData = async (accountId, authToken, isGoogle) => {
       console.log('1')
       const data_1 = await getUserInfoRequestPayload(userInfo1Key, userInfo1PayloadKey, initial_data);
       const data_2 = await callActionSymbol(userInfo1UrlSymbol, userInfo1Key, data_1);
-      const data_3 = await saveResponseAs('userData', data_2);
-      return await wait1s(data_3);
+      // const data_3 = await saveResponseAs('userData', data_2);
+      // return await wait1s(data_3);
+      return await saveResponseAs('userData', data_2);
     }
     const userData1 = await getUserData1(initialAuthentication)
 
@@ -46,8 +48,9 @@ export const getUserData = async (accountId, authToken, isGoogle) => {
       console.log('2')
       const data_1 = await getUserInfoRequestPayload(userInfo2Key, userInfo2PayloadKey, userData);
       const data_2 = await callActionSymbol(userInfo2UrlSymbol, userInfo2Key, data_1);
-      const data_3 = await saveResponseAs('userData2', data_2);
-      return await wait1s(data_3);
+      // const data_3 = await saveResponseAs('userData2', data_2);
+      // return await wait1s(data_3);
+      return await saveResponseAs('userData2', data_2);
     }
     const userData2 = await getUserData2(userData1)
 
@@ -55,8 +58,9 @@ export const getUserData = async (accountId, authToken, isGoogle) => {
       console.log('3')
       const data_1 = await getUserInfoRequestPayload(userInfo3Key, userInfo3PayloadKey, userData);
       const data_2 = await callActionSymbol(userInfo3UrlSymbol, userInfo3Key, data_1);
-      const data_3 = await saveResponseAs('userData3', data_2);
-      return await wait1s(data_3);
+      // const data_3 = await saveResponseAs('userData3', data_2);
+      // return await wait1s(data_3);
+      return await saveResponseAs('userData3', data_2);
     }
     const userData3 = await getUserData3(userData2)
     return { userData: userData3.userData, userData2: userData3.userData2, userData3: userData3.userData3 }
@@ -70,9 +74,9 @@ export const getUserData = async (accountId, authToken, isGoogle) => {
   // }
 }
 
-function wait1s(data) {
-  return new Promise(resolve => setTimeout(() => resolve(data), 1000));
-}
+// function wait1s(data) {
+//   return new Promise(resolve => setTimeout(() => resolve(data), 1000));
+// }
 
 function saveResponseAs(name, data) {
   return new Promise(resolve => {

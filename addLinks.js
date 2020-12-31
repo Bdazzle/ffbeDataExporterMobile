@@ -12,7 +12,7 @@ function formatDate(d) {
 }
 
 function addInventoryLink(data) {
-    console.log('addInventoryLink data', data)
+    // console.log('addInventoryLink data', data)
     var ret = [];
 
     let userData = data.userData;
