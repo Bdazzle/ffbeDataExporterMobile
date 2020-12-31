@@ -12,7 +12,6 @@ function formatDate(d) {
 }
 
 function addInventoryLink(data) {
-    // console.log('addInventoryLink data', data)
     var ret = [];
 
     let userData = data.userData;
@@ -63,13 +62,9 @@ function addInventoryLink(data) {
     });
 
     return { href: JSON.stringify(ret), download: userData['LhVz6aD2'][0]['9qh17ZUf'] + "_" + exportDate + "_inventory.json" }
-
-    // link.attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(ret)));
-    // link.attr('download', userData['LhVz6aD2'][0]['9qh17ZUf'] + "_" + exportDate + "_inventory.json");
 }
 
 function addUnitCollectionLink(data) {
-    // console.log('addUnitCollectionLink data', data)
     let userData = data.userData;
     let userData2 = data.userData2;
 
@@ -153,9 +148,6 @@ function addUnitCollectionLink(data) {
     });
 
     return { href: JSON.stringify(ret), download: userData['LhVz6aD2'][0]['9qh17ZUf'] + "_" + exportDate + "_units.json" }
-
-    // link.attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(ret)));
-    // link.attr('download', userData['LhVz6aD2'][0]['9qh17ZUf'] + "_" + exportDate + "_units.json");
 }
 
 function addConsumablesLink(data) {
@@ -178,10 +170,6 @@ function addConsumablesLink(data) {
     });
 
     return { href: JSON.stringify(ret), download: userData['LhVz6aD2'][0]['9qh17ZUf'] + "_" + exportDate + "_consumables.json" }
-    // var link = $('#downloadConsumables');
-    // link.attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(ret)));
-    // link.attr('download', userData['LhVz6aD2'][0]['9qh17ZUf'] + "_" + exportDate + "_consumables.json");
-    // link.removeClass("hidden");
 }
 
 function addEspersLink(data) {
@@ -206,10 +194,6 @@ function addEspersLink(data) {
     });
 
     return { href: JSON.stringify(ret), download: userData['LhVz6aD2'][0]['9qh17ZUf'] + "_" + exportDate + "_espers.json" }
-    // var link = $('#downloadEspers');
-    // link.attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(ret)));
-    // link.attr('download', userData['LhVz6aD2'][0]['9qh17ZUf'] + "_" + exportDate + "_espers.json");
-    // link.removeClass("hidden");
 }
 
 export function addLinks(link_type, data) {
