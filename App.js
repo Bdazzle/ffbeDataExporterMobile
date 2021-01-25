@@ -61,7 +61,6 @@ const App = () => {
   useEffect(() => {
     GoogleSignin.configure({
       scopes: ['profile'],
-      webClientId: '662967411403-6u6k7oj0dd4i1ne8gah7f7h848b9l3pq.apps.googleusercontent.com',
       offlineAccess: true
     })
     async () => {
