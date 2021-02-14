@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import 'react-native-gesture-handler';
 import {
   StyleSheet,
   View,
@@ -6,15 +7,17 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
-  PermissionsAndroid
+  PermissionsAndroid,
 } from 'react-native';
-// import { ProgressBar, Colors } from 'react-native-paper';
+
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
-import { LoginButton, AccessToken } from 'react-native-fbsdk';
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
+//change FB LoginBehavior via LoginManager
 import { getUserData } from './background'
 import { addLinks } from './addLinks'
 import * as RNFS from 'react-native-fs'
 
+LoginManager.setLoginBehavior('WEB_VIEW_ONLY');
 
 const App = () => {
   const [googleData, setGoogleData] = useState()
@@ -42,6 +45,7 @@ const App = () => {
       } else {
         // some other error happened
         console.log('error', error, error.code)
+        alert('error', error, error.code)
       }
     }
   }
@@ -57,19 +61,29 @@ const App = () => {
       console.error('signout error', error);
     }
   };
+  // const granted = await PermissionsAndroid.requestMultiple([
+  //   PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+  //   PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+  // ]);
 
   useEffect(() => {
-    GoogleSignin.configure({
-      scopes: ['profile'],
-      webClientId: '662967411403-6u6k7oj0dd4i1ne8gah7f7h848b9l3pq.apps.googleusercontent.com',
-      offlineAccess: true
-    })
+    GoogleSignin.configure({})
     async () => {
       try {
-        const granted = await PermissionsAndroid.requestMultiple([
+        
+        const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-        ]);
+          {
+            title: "FFBE Data Exporter Permission",
+            message:
+              "FFBE Data Exporter requires write permission to save files to device.",
+            buttonNegative: "Cancel",
+            buttonPositive: "Accept"
+          }
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          alert("Save permission granted.")
+        }
       } catch (err) {
         console.warn(err);
       }
@@ -105,6 +119,27 @@ const App = () => {
     }
   }, [fbData])
 
+  const fbAuth = async () => {
+    if (!fbData) {
+      LoginManager.logInWithPermissions(['public_profile']).then(function (result) {
+        if (result.isCancelled) {
+          console.log('loging cancelled')
+        }
+        else {
+          AccessToken.getCurrentAccessToken().then(data => {
+            setfbData(data)
+          })
+        }
+      }, function (error) {
+        console.log('An error occured: ' + error)
+      })
+    } else {
+      LoginManager.logOut(),
+      setfbData(null)
+    }
+  }
+
+  console.log('fbData', fbData)
   return (
     <View style={styles.container}>
       <Text >FFBE Data Exporter (Facebook/Google)</Text>
@@ -117,29 +152,10 @@ const App = () => {
           <Text style={{ color: 'white', padding: 8, fontWeight: 'bold' }}>{!googleData ? 'Sign in with Google' : 'Sign out of Google'}</Text>
         </TouchableOpacity>
       </View>
-      <LoginButton
-        onLoginFinished={
-          (error, result) => {
-            if (error) {
-              console.log("Login failed with error: " + error.message);
-            } else if (result.isCancelled) {
-              alert("Login was cancelled");
-            } else {
-              console.log('Login successful')
-              AccessToken.getCurrentAccessToken().then(
-                data => {
-                  setfbData(data)
-                }
-              )
-            }
-          }
-        }
-        onLogoutFinished={() => {
-          setfbData(null)
-          setUserData(null)
-          console.log("logged out of Facebook")
-        }}
-      />
+      <TouchableOpacity style={styles.FBLoginButton} onPress={() => fbAuth()}>
+        <Image style={{height:30, width:30}} source={require("./icons/iconfinder_facebook.png")}></Image>
+        <Text style={styles.FBText}>{!fbData ? "Log in with Facebook" : "Log out of Facebook"}</Text>
+      </TouchableOpacity>
       <View id="how-to-use">
         <Text id="how-to-header" style={{ fontWeight: 'bold', color: 'black', fontSize: 20 }}>How to use this</Text>
         <Text>Log in to the Facebook or Google account bound to the Final Fantasy Brave Exvius you would like to get data files for (units, inventory, espers, and consumables). After loading is finished, you can download each file type to use with ffbeequip.com. Files should be saved to your device's Download folder. This works like the FFBEsync browser extension.</Text>
@@ -152,8 +168,8 @@ const App = () => {
 const loadingIndicator = (isLoading) => {
   return (
     <View style={styles.loadingcontainer}>
-      <Image style={{height:100, width:"100%"}} source={require('./icons/the_squad_ffbe.gif')}></Image>
-      <Text style={{ color: "black", textAlign: 'center'}}>Loading</Text>
+      <Image style={{ height: 100, width: "100%" }} source={require('./icons/the_squad_ffbe.gif')}></Image>
+      <Text style={{ color: "black", textAlign: 'center' }}>Loading</Text>
       <ActivityIndicator animating={isLoading} size="large" color='#999999' />
     </View>
   )
@@ -226,6 +242,28 @@ const styles = StyleSheet.create({
     shadowRadius: 2.22,
     elevation: 3,
   },
+  FBText:{
+    color:"white",
+    fontSize:14,
+  },
+  FBLoginButton: {
+    marginTop: 5,
+    marginBottom: 5,
+    width: 190,
+    height: 45,
+    backgroundColor: '#3A5A97',
+    borderRadius: 2,
+    flexDirection: 'row',
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
   loadingcontainer: {
     flex: 1,
     justifyContent: "center"
@@ -233,3 +271,4 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+
