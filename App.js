@@ -61,10 +61,6 @@ const App = () => {
       console.error('signout error', error);
     }
   };
-  // const granted = await PermissionsAndroid.requestMultiple([
-  //   PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-  //   PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-  // ]);
 
   useEffect(() => {
     GoogleSignin.configure({})
