@@ -65,9 +65,9 @@ signin-assets.zip
 .expo/
 privacypolicy.html
  
-.hprof
+android/
 *.hprof 
-ssss
+hprof
  android/java_pid8748.hprof
         icons/iconeExtractor_1024x500.png
         icons/iconeExtractor_16;9_320.png
