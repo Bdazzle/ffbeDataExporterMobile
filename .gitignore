@@ -57,7 +57,7 @@ buck-out/
 *.jsbundle
 
 # CocoaPods
-/ios/Pods/
+# /ios/Pods/
 
 yarn.lock
 signin-assets.zip
