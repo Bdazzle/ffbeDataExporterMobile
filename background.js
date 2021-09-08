@@ -66,17 +66,10 @@ export const getUserData = async (accountId, authToken, isGoogle) => {
     return { userData: userData3.userData, userData2: userData3.userData2, userData3: userData3.userData3 }
   } catch (errorData) {
     console.log('error', errorData)
+    // alert('error retrieving user data ' + errorData)
+    return {err: 'error retrieving FFBE user data ' + JSON.stringify(errorData)}
   }
-  // try{
-  //   return {userData: data.userData, userData2: data.userData2, userData3: data.userData3}
-  // } catch (errorData){
-  //   console.log({ type: "error", data: dataBySymbol[errorData.actionSymbol], message: `${errorData.status} - ${errorData.error}` })
-  // }
 }
-
-// function wait1s(data) {
-//   return new Promise(resolve => setTimeout(() => resolve(data), 1000));
-// }
 
 function saveResponseAs(name, data) {
   return new Promise(resolve => {
@@ -143,7 +136,7 @@ function getUserInfoRequestPayload(actionKey, payloadKey, data) {
   });
 }
 
-//change this to axios.post
+
 function callActionSymbol(actionSymbol, actionKey, data) {
   return new Promise((resolve, reject) => {
     // axios({

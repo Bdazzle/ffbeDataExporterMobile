@@ -23,6 +23,7 @@
     "react-native": "^0.63.2",
     "react-native-fbsdk": "^2.0.0",
     "react-native-fs": "^2.16.6",
+    "react-native-gesture-handler": "^1.10.3",
     "react-native-paper": "^4.2.0",
     "react-native-web": "^0.14.9",
     "react-native-webview": "^11.0.2"

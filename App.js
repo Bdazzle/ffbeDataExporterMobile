@@ -8,6 +8,7 @@ import {
   Image,
   ActivityIndicator,
   PermissionsAndroid,
+  SafeAreaView
 } from 'react-native';
 
 import { GoogleSignin, statusCodes } from '@react-native-community/google-signin';
@@ -36,16 +37,19 @@ const App = () => {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
         console.log('login cancelled', error)
+        alert('login cancelled', error)
       } else if (error.code === statusCodes.IN_PROGRESS) {
         // operation (e.g. sign in) is in progress already
         console.log('sign in already in progress', error)
+        alert('sign in already in progress', error)
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         // play services not available or outdated
         console.log('play services not available or outdated', error)
+        alert('play services not available or outdated', error)
       } else {
         // some other error happened
         console.log('error', error, error.code)
-        alert('error', error, error.code)
+        alert('Google error', error, error.code)
       }
     }
   }
@@ -59,6 +63,7 @@ const App = () => {
       console.log('signed out')
     } catch (error) {
       console.error('signout error', error);
+      alert('Google signout error', error);
     }
   };
 
@@ -66,7 +71,7 @@ const App = () => {
     GoogleSignin.configure({})
     async () => {
       try {
-        
+
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
           {
@@ -95,6 +100,7 @@ const App = () => {
         const ffbeUserData = await getUserData(googleData.user.id, GoogleTokens.accessToken, true)
         setUserData(ffbeUserData)
         setLoading(false)
+        if (ffbeUserData.err) alert(ffbeUserData.err)
         console.log('ffbe data acquired')
       }
       getGoogleUserData();
@@ -109,6 +115,7 @@ const App = () => {
         const ffbeUserData = await getUserData(fbData.userID, fbData.accessToken, false)
         setUserData(ffbeUserData)
         setLoading(false)
+        if (ffbeUserData.err) alert(ffbeUserData.err)
         console.log('ffbe data acquired')
       }
       getFBUserData()
@@ -128,36 +135,38 @@ const App = () => {
         }
       }, function (error) {
         console.log('An error occured: ' + error)
+        alert('An error occurred logging into Facebook: ' + error)
       })
     } else {
       LoginManager.logOut(),
-      setfbData(null)
+        setfbData(null)
     }
   }
 
-  console.log('fbData', fbData)
   return (
-    <View style={styles.container}>
-      <Text >FFBE Data Exporter (Facebook/Google)</Text>
-      <View id="GoogleSigninContainer" style={{ flexDirection: 'row' }}>
-        <TouchableOpacity style={styles.googleSignInButton} onPress={!googleData ? GsignIn : GsignOut}>
-          <Image
-            style={{ width: 48, height: 48 }}
-            source={require('./google_signin_buttons/android/xxxhdpi/btn_google_light_normal_xxxhdpi.9.png')}>
-          </Image>
-          <Text style={{ color: 'white', padding: 8, fontWeight: 'bold' }}>{!googleData ? 'Sign in with Google' : 'Sign out of Google'}</Text>
+    <SafeAreaView>
+      <View style={styles.container}>
+        <Text >FFBE Data Exporter (Facebook/Google)</Text>
+        <View id="GoogleSigninContainer" style={{ flexDirection: 'row' }}>
+          <TouchableOpacity style={styles.googleSignInButton} onPress={!googleData ? GsignIn : GsignOut}>
+            <Image
+              style={{ width: 48, height: 48 }}
+              source={require('./google_signin_buttons/android/xxxhdpi/btn_google_light_normal_xxxhdpi.9.png')}>
+            </Image>
+            <Text style={{ color: 'white', padding: 8, fontWeight: 'bold' }}>{!googleData ? 'Sign in with Google' : 'Sign out of Google'}</Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity style={styles.FBLoginButton} onPress={() => fbAuth()}>
+          <Image style={{ height: 30, width: 30 }} source={require("./icons/iconfinder_facebook.png")}></Image>
+          <Text style={styles.FBText}>{!fbData ? "Log in with Facebook" : "Log out of Facebook"}</Text>
         </TouchableOpacity>
+        <View id="how-to-use">
+          <Text id="how-to-header" style={{ fontWeight: 'bold', color: 'black', fontSize: 20 }}>How to use this</Text>
+          <Text>Log in to the Facebook or Google account bound to the Final Fantasy Brave Exvius you would like to get data files for (units, inventory, espers, and consumables). After loading is finished, you can download each file type to use with ffbeequip.com. Files should be saved to your device's Download folder. This works like the FFBEsync browser extension.</Text>
+        </View>
+        {loading ? loadingIndicator(loading) : userData && userData.err ? <Text>{userData.err}</Text> : userData && userData.userData3 ? downloadButtons(userData) : <></>}
       </View>
-      <TouchableOpacity style={styles.FBLoginButton} onPress={() => fbAuth()}>
-        <Image style={{height:30, width:30}} source={require("./icons/iconfinder_facebook.png")}></Image>
-        <Text style={styles.FBText}>{!fbData ? "Log in with Facebook" : "Log out of Facebook"}</Text>
-      </TouchableOpacity>
-      <View id="how-to-use">
-        <Text id="how-to-header" style={{ fontWeight: 'bold', color: 'black', fontSize: 20 }}>How to use this</Text>
-        <Text>Log in to the Facebook or Google account bound to the Final Fantasy Brave Exvius you would like to get data files for (units, inventory, espers, and consumables). After loading is finished, you can download each file type to use with ffbeequip.com. Files should be saved to your device's Download folder. This works like the FFBEsync browser extension.</Text>
-      </View>
-      {loading ? loadingIndicator(loading) : userData ? downloadButtons(userData) : <></>}
-    </View>
+    </SafeAreaView>
   )
 };
 
@@ -238,9 +247,9 @@ const styles = StyleSheet.create({
     shadowRadius: 2.22,
     elevation: 3,
   },
-  FBText:{
-    color:"white",
-    fontSize:14,
+  FBText: {
+    color: "white",
+    fontSize: 14,
   },
   FBLoginButton: {
     marginTop: 5,

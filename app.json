@@ -1,4 +1,6 @@
 {
   "name": "ffbeDataExporterMobile",
-  "displayName": "ffbeDataExporterMobile"
+  "ios": {
+    "bundleIdentifier": "com.beedazzle.ffbedataexportermobile"
+  }
 }
