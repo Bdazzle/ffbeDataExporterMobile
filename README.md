@@ -7,7 +7,7 @@ Adapted from the [ffbeDataExporter](https://github.com/lyrgard/ffbeDataExporter)
 
 - Logs in to your Final Fantasy Brave Exvius linked with either your Facebook or Google account, logging you out of Final Fantasy Brave Exvius in the process.
 
-- Allows downloads of your account's Units, Equipment, Espers, and Consumables (as JSON files) to your mobile device to choice.
+- Downloads of your account's Units, Equipment, Espers, and Consumables (as JSON files) to your mobile device to choice.
   - Files will have Final Fantasy Brave Exvius account name in the title.
 
 - Downloaded files can then be uploaded to your [ffbeequip](https://ffbeequip.com/) account.
